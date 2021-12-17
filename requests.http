@@ -1,0 +1,248 @@
+POST http://localhost:8081/api/v1/categories
+Content-Type: application/json
+
+{
+  "name": "Computers & Electronics",
+  "description": "Computers & Electronics",
+  "enabled": true
+}
+
+###
+POST http://localhost:8081/api/v1/products
+Content-Type: application/json
+
+{
+  "serialCode": "TS0003",
+  "name": "MSI LAPTOP CONTENT CREATION MSI Creator 15 A10SFS-034MX 15.6\" 4K UHD, NVIDIA RTX2070 Super Max-Q 8GB, CORE i7-10875H, RAM 32GB, 2TB (SSD) WinPro10",
+  "description": "Creator 15 A10SFS-034MX",
+  "price": 62463.54,
+  "categories": [
+    {
+      "id": 1515
+    }
+  ],
+  "attributes": [
+    {
+      "attribute": "Brand",
+      "value": "MSI"
+    },
+    {
+      "attribute": "Manufacturer",
+      "value": "MSI COMPUTER"
+    },
+    {
+      "attribute": "Series",
+      "value": "Creator 15 A10SFS-034MX"
+    },
+    {
+      "attribute": "Form factor",
+      "value": "Laptop"
+    },
+    {
+      "attribute": "Screen",
+      "value": "15.6 Inches"
+    },
+    {
+      "attribute": "Number of processors",
+      "value": "8"
+    },
+    {
+      "attribute": "RAM",
+      "value": "32 GB"
+    },
+    {
+      "attribute": "HDD",
+      "value": "SSD"
+    },
+    {
+      "attribute": "GPU",
+      "value": "NVIDIA GeForce RTX 2070"
+    },
+    {
+      "attribute": "Connectivity",
+      "value": "Wi-Fi"
+    },
+    {
+      "attribute": "Operating System",
+      "value": "Windows 10"
+    }
+  ]
+}
+
+
+###
+POST http://localhost:8081/api/v1/products
+Content-Type: application/json
+
+{
+  "serialCode": "TS0002",
+  "name": "Zotac Gaming GeForce RTX 3070 Twin Edge LHR",
+  "description": "",
+  "price": 28000.0,
+  "categories": [
+    {
+      "id": 1
+    }
+  ],
+  "attributes": [
+    {
+      "attribute": "Brand",
+      "value": "Zotac"
+    },
+    {
+      "attribute": "Manufacturer",
+      "value": "ZOTAC"
+    },
+    {
+      "attribute": "Series",
+      "value": "ZOTAC GAMING GeForce RTX 3070 Twin Edge LHR"
+    },
+    {
+      "attribute": "Form factor",
+      "value": "Double slot"
+    },
+    {
+      "attribute": "Memory clock speed",
+      "value": "1770"
+    },
+    {
+      "attribute": "GPU Interface",
+      "value": "PCI-Express x16"
+    },
+    {
+      "attribute": "GPU Ram Size",
+      "value": "8 GB"
+    },
+    {
+      "attribute": "GPU",
+      "value": "NVIDIA GeForce RTX 3070"
+    }
+  ]
+}
+
+
+###
+POST http://localhost:8081/api/v1/products
+Content-Type: application/json
+
+{
+  "serialCode": "TS0004",
+  "name": "MSI Business & Productivity Laptop Modern 14 B11MOU-665MX, 14\" FHD, 60Hz IPS-level panel, UHD Graphics, CORE i5-1135G7, RAM 8GB, 512GB SSD, Windows Pro",
+  "description": "Modern 14 B11MOU-665MX",
+  "price": 19999.0,
+  "categories": [
+    {
+      "id": 1
+    }
+  ],
+  "attributes": [
+    {
+      "attribute": "Brand",
+      "value": "MSI"
+    },
+    {
+      "attribute": "Manufacturer",
+      "value": "MSI COMPUTER"
+    },
+    {
+      "attribute": "Form factor",
+      "value": "Laptop"
+    },
+    {
+      "attribute": "Screen",
+      "value": "14 Inches"
+    },
+    {
+      "attribute": "Processor Type",
+      "value": "Intel Core i5"
+    },
+    {
+      "attribute": "RAM Size",
+      "value": "8 GB"
+    },
+    {
+      "attribute": "HDD",
+      "value": "SSD"
+    },
+    {
+      "attribute": "Connectivity",
+      "value": "Wi-Fi"
+    },
+    {
+      "attribute": "Operating System",
+      "value": "Windows 10"
+    }
+  ]
+}
+
+
+
+###
+POST http://localhost:8081/api/v1/products
+Content-Type: application/json
+
+{
+  "serialCode": "TS0005",
+  "name": "Asus Laptop ExpertBook B9450, 14\" FHD, Intel Core i5, 8GB RAM, 512SSD, NumberPad.",
+  "description": "",
+  "price": 29119.09,
+  "categories": [
+    {
+      "id": 1
+    }
+  ],
+  "attributes": [
+    {
+      "attribute": "Brand",
+      "value": "Asus"
+    },
+    {
+      "attribute": "Manufacturer",
+      "value": "Asus"
+    },
+    {
+      "attribute": "Series",
+      "value": "B9450FA-i58G512WP-01"
+    },
+    {
+      "attribute": "Form factor",
+      "value": "Laptop"
+    },
+    {
+      "attribute": "Screen",
+      "value": "14 Inches"
+    },
+    {
+      "attribute": "Processor Type",
+      "value": "Intel Core i5"
+    },
+    {
+      "attribute": "RAM Size",
+      "value": "8 GB"
+    },
+    {
+      "attribute": "HDD",
+      "value": "SSD"
+    },
+    {
+      "attribute": "Connectivity",
+      "value": "Wi-Fi, Bluetooth"
+    },
+    {
+      "attribute": "Operating System",
+      "value": "Windows 10"
+    }
+  ]
+}
+
+
+###
+GET http://localhost:8081/api/v1/products/search?q=MSI&attr=Brand:MSI,RAM:32GB&c=1515
+
+
+
+
+
+###
+GET http://localhost:8081/api/v1/products/search?q=Tragedies&attr=Author:Shakespeare&c=364
+
