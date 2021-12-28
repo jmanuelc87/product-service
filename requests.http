@@ -18,7 +18,7 @@ Content-Type: application/json
   "price": 62463.54,
   "categories": [
     {
-      "id": 1515
+      "id": 1
     }
   ],
   "attributes": [
@@ -237,7 +237,7 @@ Content-Type: application/json
 
 
 ###
-GET http://localhost:8081/api/v1/products/search?q=MSI&attr=Brand:MSI,RAM:32GB&c=1515
+GET http://localhost:8081/api/v1/products/search?q=MSI&attr=Brand:MSI,RAM:32GB&c=1
 
 
 

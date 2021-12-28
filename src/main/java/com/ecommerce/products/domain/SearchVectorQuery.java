@@ -1,5 +1,6 @@
 package com.ecommerce.products.domain;
 
+import com.ecommerce.products.util.Lazy;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -24,6 +25,11 @@ public class SearchVectorQuery {
     private String attributesQuery;
 
     public String searchQuery() {
+        Lazy<String> lazy = Lazy.of(this::computeSearchQuery);
+        return lazy.get();
+    }
+
+    public String computeSearchQuery() {
         String[] vector = searchQuery.split("\\W+");
         return String.join("<->", vector);
     }
@@ -33,10 +39,15 @@ public class SearchVectorQuery {
             return Optional.empty();
         }
 
+        Lazy<String> lazy = Lazy.of(this::computeAttributesQuery);
+        return Optional.of(lazy.get());
+    }
+
+    public String computeAttributesQuery() {
         String[] keyValues = attributesQuery.split(KEY_VALUE_PAIRS_DELIM);
-        return Optional.of(Arrays.stream(keyValues)
+        return Arrays.stream(keyValues)
                 .map(v -> v.split(KEY_VALUE_DELIM))
                 .map(arr -> String.join(AND_JOINER, arr))
-                .collect(Collectors.joining(OR_JOINER)));
+                .collect(Collectors.joining(OR_JOINER));
     }
 }
