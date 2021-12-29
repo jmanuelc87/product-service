@@ -2,19 +2,19 @@ package com.ecommerce.products.util;
 
 import java.util.Deque;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Optional;
 
 
-// TODO: Implement Thread-Safe LRU Cache
-public class LRUCache<K, V> {
+public class LRUMap<K, V> implements Iterable<K> {
 
     private final Deque<K> doublyQueue;
-    private final Map<K, CacheElement<V>> map;
+    private final Map<K, V> map;
     private final int CACHE_SIZE;
 
-    public LRUCache(int cache_size) {
+    public LRUMap(int cache_size) {
         this.CACHE_SIZE = cache_size;
         this.doublyQueue = new LinkedList<>();
         this.map = new HashMap<>();
@@ -30,20 +30,19 @@ public class LRUCache<K, V> {
             }
         }
         doublyQueue.push(key);
-        map.put(key, new CacheElement<>(value));
+        map.put(key, value);
     }
 
     public Optional<V> getOrEmpty(K key) {
-        CacheElement<V> node;
+        V node;
         if (map.containsKey(key)) {
             node = map.get(key);
-            node.lastAccessed = System.currentTimeMillis();
             doublyQueue.remove(key);
         } else {
             return Optional.empty();
         }
         doublyQueue.push(key);
-        return Optional.ofNullable(node.value);
+        return Optional.ofNullable(node);
     }
 
     public void remove(K key) {
@@ -56,22 +55,15 @@ public class LRUCache<K, V> {
     }
 
     public boolean isEmpty() {
-        return doublyQueue.isEmpty();
+        return doublyQueue.size() <= 0;
     }
 
-    public void clear() {
-        doublyQueue.clear();
-        map.clear();
+    public boolean isFull() {
+        return doublyQueue.size() >= CACHE_SIZE;
     }
 
-    protected static class CacheElement<V> {
-
-        public final V value;
-        public long lastAccessed;
-
-        public CacheElement(V value) {
-            this.value = value;
-            lastAccessed = System.currentTimeMillis();
-        }
+    @Override
+    public Iterator<K> iterator() {
+        return map.keySet().iterator();
     }
 }
