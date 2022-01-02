@@ -62,31 +62,35 @@ public class InMemoryCache<K, T> implements Closeable {
     }
 
     public T getOrComputeIfAbsent(K key, Function<K, T> function) {
-        synchronized (cacheMap) {
-            var actualValue = cacheMap.getOrEmpty(key);
+        var actualValue = cacheMap.getOrEmpty(key);
 
-            if (actualValue.isEmpty() || computeCacheUpdateTimeTo(actualValue)) {
-                var start = System.currentTimeMillis();
-                var value = function.apply(key);
-                var delta = System.currentTimeMillis() - start;
+        if (actualValue.isEmpty() || xFetch(actualValue)) {
+            synchronized (cacheMap) {
+                actualValue = cacheMap.getOrEmpty(key);
+                if (actualValue.isEmpty()) {
+                    var start = System.currentTimeMillis();
+                    var value = function.apply(key);
+                    var delta = System.currentTimeMillis() - start;
 
-                var object = new CacheObject<>(value);
-                object.delta = delta;
-                object.expiryTime = object.lastAccesed + timeToLive.toMillis();
+                    var object = new CacheObject<>(value);
+                    object.delta = delta;
+                    object.expiryTime = object.lastAccesed + timeToLive.toMillis();
 
-                cacheMap.put(key, object);
+                    cacheMap.put(key, object);
 
-                log.info("Cache value computed from L2 or database. delta: {}, expiryTime: {}", object.delta, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS").format(LocalDateTime.ofInstant(Instant.ofEpochMilli(object.expiryTime), ZoneOffset.UTC)));
+                    log.info("Cache value computed from L2 or database. delta: {}, expiryTime: {}", object.delta, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS").format(LocalDateTime.ofInstant(Instant.ofEpochMilli(object.expiryTime), ZoneOffset.UTC)));
 
-                return object.value;
+                    return object.value;
+                }
             }
-
-            return actualValue.get().value;
         }
+
+        // TODO: return promises or callable future for threads that received a cache miss and are waiting for a result instead of a failure
+        return actualValue.get().value;
     }
 
-    private boolean computeCacheUpdateTimeTo(Optional<CacheObject<T>> actualValue) {
-        return System.currentTimeMillis() + actualValue.get().delta * this.BETA * Math.log(rand.nextDouble()) >= actualValue.get().expiryTime;
+    private boolean xFetch(Optional<CacheObject<T>> actualValue) {
+        return System.currentTimeMillis() - actualValue.get().delta * this.BETA * Math.log(rand.nextDouble()) >= actualValue.get().expiryTime;
     }
 
     public void remove(K key) {

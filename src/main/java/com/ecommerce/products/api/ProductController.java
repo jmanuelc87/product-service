@@ -1,4 +1,4 @@
-package com.ecommerce.products.controller;
+package com.ecommerce.products.api;
 
 import com.ecommerce.products.persistence.Product;
 import com.ecommerce.products.service.ProductService;
